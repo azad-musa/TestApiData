@@ -13,5 +13,22 @@ class WorkersController extends Controller
 
         return response()->json($users);
     }
+
+    public function GetWorkersDetailed(Request $request)
+    {
+        $workers = DB::select('
+            SELECT 
+                w.worker_id, 
+                w.worker_name, 
+                w.worker_email, 
+                d.department_name, 
+                r.role_name
+            FROM workers w
+            INNER JOIN departments d ON w.worker_department_id = d.department_id
+            INNER JOIN roles r ON w.worker_role_id = r.role_id
+        ');
+
+        return response()->json($workers);
+    }
 }
 ?>
